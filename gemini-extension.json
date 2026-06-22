@@ -1,0 +1,6 @@
+{
+  "name": "skills-template",
+  "version": "0.1.0",
+  "description": "Blank multi-agent skills repository template.",
+  "contextFileName": "GEMINI.md"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "skills-template",
+  "description": "Blank multi-agent skills repository template.",
+  "version": "0.1.0",
+  "entrypoint": "AGENTS.md",
+  "skills": [
+    "./skills"
+  ]
+}

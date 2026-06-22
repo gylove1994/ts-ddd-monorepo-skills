@@ -1,0 +1,9 @@
+{
+  "name": "skills-template",
+  "description": "Blank multi-agent skills repository template.",
+  "version": "0.1.0",
+  "instructions": "Read AGENTS.md and load applicable skills from ./skills before performing matching workflows.",
+  "skills": [
+    "./skills"
+  ]
+}
