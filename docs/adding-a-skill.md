@@ -4,6 +4,8 @@ Use this checklist when adding a skill to the repository.
 
 Before creating or changing a distributed skill, use the project-level authoring skill at `.agents/skills/writing-skills/SKILL.md`.
 
+Distributed skills live under `skills/`. Project-level authoring, testing, or repository operation skills may live under `.agents/skills/` when they are meant to guide agents working on this repository rather than be distributed as part of the shared skill library.
+
 ## 1. Create the Directory
 
 Create one directory per skill:
@@ -15,6 +17,8 @@ skills/my-skill/
 ```
 
 Use lowercase letters, numbers, and hyphens for directory names.
+
+For project-level skills, use the same structure under `.agents/skills/my-skill/`.
 
 ## 2. Write `SKILL.md`
 

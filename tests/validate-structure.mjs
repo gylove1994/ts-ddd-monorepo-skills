@@ -53,37 +53,42 @@ for (const path of jsonPaths) {
   }
 }
 
-const skillsRoot = join(root, "skills");
+const skillRoots = ["skills", ".agents/skills"];
 
-if (existsSync(skillsRoot)) {
-  const skillDirs = readdirSync(skillsRoot).filter((entry) =>
-    statSync(join(skillsRoot, entry)).isDirectory(),
-  );
+for (const skillRoot of skillRoots) {
+  const skillsRoot = join(root, skillRoot);
 
-  for (const skillDir of skillDirs) {
-    const skillPath = join(skillsRoot, skillDir, "SKILL.md");
+  if (existsSync(skillsRoot)) {
+    const skillDirs = readdirSync(skillsRoot).filter((entry) =>
+      statSync(join(skillsRoot, entry)).isDirectory(),
+    );
 
-    if (!existsSync(skillPath)) {
-      errors.push(`Missing SKILL.md for skill: ${skillDir}`);
-      continue;
+    for (const skillDir of skillDirs) {
+      const skillPath = join(skillsRoot, skillDir, "SKILL.md");
+      const displayPath = `${skillRoot}/${skillDir}/SKILL.md`;
+
+      if (!existsSync(skillPath)) {
+        errors.push(`Missing SKILL.md for skill: ${skillRoot}/${skillDir}`);
+        continue;
+      }
+
+      const content = readFileSync(skillPath, "utf8");
+
+      if (!content.startsWith("---\n")) {
+        errors.push(`Missing YAML frontmatter in ${displayPath}`);
+      }
+
+      if (!/^name:\s+[a-z0-9-]+$/m.test(content)) {
+        errors.push(`Missing valid name field in ${displayPath}`);
+      }
+
+      if (!/^description:\s+.+$/m.test(content)) {
+        errors.push(`Missing description field in ${displayPath}`);
+      }
     }
-
-    const content = readFileSync(skillPath, "utf8");
-
-    if (!content.startsWith("---\n")) {
-      errors.push(`Missing YAML frontmatter in ${skillDir}/SKILL.md`);
-    }
-
-    if (!/^name:\s+[a-z0-9-]+$/m.test(content)) {
-      errors.push(`Missing valid name field in ${skillDir}/SKILL.md`);
-    }
-
-    if (!/^description:\s+.+$/m.test(content)) {
-      errors.push(`Missing description field in ${skillDir}/SKILL.md`);
-    }
+  } else if (skillRoot === "skills") {
+    errors.push("Missing skills/ directory");
   }
-} else {
-  errors.push("Missing skills/ directory");
 }
 
 if (errors.length > 0) {

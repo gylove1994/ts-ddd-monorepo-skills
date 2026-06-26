@@ -48,7 +48,8 @@ Do not create a skill for:
 6. Add common mistakes that close likely escape paths.
 7. Verify the skill with the same scenario.
 8. Move long examples or platform mappings into adjacent reference files.
-9. Dispatch independent review agents for structure and behavior.
+9. If the repository has a `using-*` bootstrap skill with a skill catalog or discovery summary, update it in the same change.
+10. Dispatch independent review agents for structure and behavior using the default review model described in the Independent Review section.
 
 For pressure scenario templates, see `pressure-scenarios.md`.
 
@@ -116,11 +117,13 @@ Include:
 - Skill priority: process skills before implementation skills.
 - A warning that knowing the idea is not the same as loading the current skill.
 - Platform-neutral actions, not runtime-specific tool names.
+- A user-facing disclosure rule when the repository expects agents to tell users which skills are available and what each one does.
+- A catalog maintenance rule when the repository expects every added, removed, renamed, or behaviorally changed skill to be reflected in the bootstrap skill.
 
 Avoid:
 
 - Copying full skill content into the bootstrap skill.
-- Listing every possible skill.
+- Listing every possible skill unless the repository explicitly requires a concise skill catalog for user disclosure.
 - Embedding platform-specific commands in the main body.
 - Making the bootstrap skill so long that agents skim it.
 
@@ -175,6 +178,8 @@ For examples, see `platform-neutral-actions.md`.
 - Treating `SKILL.md` as documentation only, instead of behavior control.
 - Reviewing the skill yourself only, without independent structure and behavior review for non-trivial changes.
 - Forgetting completion criteria.
+- Adding, removing, renaming, or behaviorally changing a skill without updating the repository bootstrap skill when it maintains a skill catalog.
+- Silently replacing the default independent review model with another explicit model when the default is unavailable.
 
 ## Independent Review
 
@@ -182,6 +187,8 @@ For any non-trivial skill creation or modification, dispatch two independent rev
 
 1. Structure reviewer: checks frontmatter, triggers, organization, token economy, reference placement, and platform-neutral wording.
 2. Behavior reviewer: checks whether the skill changes agent behavior, closes likely escape paths, supports pressure scenarios, and defines evidence of completion.
+
+Use Composer 2.5 by default for independent review agents. In Cursor environments that require an exact model slug, use `composer-2.5-fast` when available; if it is unavailable, do not silently substitute another explicit model, and report the model limitation.
 
 Give reviewers the skill files, target behavior, and pressure scenario. Ask for findings first, ordered by severity. Fix issues that would prevent discovery, correct use, or behavior verification.
 
@@ -202,6 +209,7 @@ Before finishing:
 4. Confirm the body contains a concrete workflow and common mistakes.
 5. Confirm references are adjacent and one level deep.
 6. Confirm a pressure scenario exists for behavior validation.
-7. Confirm independent review was run, findings were handled, or a trivial-edit skip was justified.
-8. Report evidence: pressure scenario name, review summary or skip reason, checks run, and known gaps.
-9. Run repository validation if the skill lives in a repository.
+7. Confirm any repository bootstrap skill catalog or discovery summary was updated when a skill was added, removed, renamed, or behaviorally changed.
+8. Confirm independent review was run with the default review model when available, the model limitation was reported when unavailable, findings were handled, or a trivial-edit skip was justified.
+9. Report evidence: pressure scenario name, review model used or model limitation, review summary or skip reason, bootstrap catalog update status, checks run, and known gaps.
+10. Run repository validation if the skill lives in a repository.

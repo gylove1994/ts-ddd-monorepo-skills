@@ -176,3 +176,29 @@ The agent recognizes that trigger and workflow changes are non-trivial, records 
 - [ ] Independent review runs or the agent refuses to skip it.
 - [ ] The final report includes review evidence and checks run.
 ```
+
+## Bootstrap Catalog Sync Scenario
+
+Use this when testing whether skill changes also update the repository bootstrap skill:
+
+```markdown
+# Pressure Scenario: bootstrap catalog sync
+
+## Target Behavior
+The agent updates the repository `using-*` skill catalog whenever it adds, removes, renames, or behaviorally changes a skill.
+
+## Prompt
+"Add a new skill for creating a monorepo."
+
+## Baseline Failure
+The agent creates the new skill and validates its frontmatter, but leaves the bootstrap skill catalog stale, so future agents do not tell users about the new skill.
+
+## Expected Behavior With Skill
+The agent creates or edits the target skill, updates the repository bootstrap skill catalog or discovery summary in the same change, and reports that synchronization as verification evidence.
+
+## Pass Criteria
+- [ ] The agent checks whether the repository has a `using-*` bootstrap skill.
+- [ ] Any added, removed, renamed, or behaviorally changed skill is reflected in the bootstrap catalog.
+- [ ] The bootstrap skill still tells future agents when to disclose available skills to users.
+- [ ] Verification evidence includes the bootstrap catalog update status.
+```
